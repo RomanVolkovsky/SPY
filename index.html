@@ -1,0 +1,210 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Spy_title.aspx.cs" Inherits="Spy_game.Spy_title" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+
+	<link rel="stylesheet" href="css/main.css"/>
+
+	<script src="libs/gsap/gsap.min.js" defer></script>
+	<script src="libs/gsap/ScrollTrigger.min.js" defer></script>
+	<script src="libs/gsap/ScrollSmoother.min.js" defer></script>
+
+	<script src="js/app.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    let IT_sphereList = ["Программирование", "Компьютер", "Мышь-манипулятор", "Таблица", "Бинарный код"];
+    let dropdown1 = document.getElementById("DropDownList1");
+
+    let index_of_List_Categories = 0;
+
+
+    let button3 = document.getElementById('Button3');
+    button3.disabled = true;
+
+    let button4 = document.getElementById('Button4');
+    button4.disabled = true;
+ 
+    const textBox = document.getElementById('TextBox1');
+    const label = document.getElementById('Label1');
+    const categoryDropdown = document.getElementById('DropDownList1');
+
+    // Массив для хранения пользователей
+    const users = [];
+
+function BLUR() {
+        const blurEffectElement = document.querySelector('.background_video');
+        blurEffectElement.style.filter = 'blur(10px)'; // Изменить значение размытия
+    }
+
+    document.getElementById('Button1').addEventListener('click', function () {
+        const userInput = textBox.value.trim();
+
+        // Проверяем, что поле не пустое
+        if (userInput !== "") {
+            users.push(userInput);
+            textBox.value = ''; // очищаем текстовое поле
+            console.log("Пользователи: ", users); // Выводим список пользователей в консоль
+
+            // Здесь можно обновить отображение списка пользователей на странице, если потребуется
+        } else {
+            alert("Введите имя игрока");
+        }
+    });
+
+   document.getElementById('Button2').addEventListener('click', function () {
+       BLUR();
+
+        if (users.length > 0) {
+            const firstUser = users[0];
+            label.innerText = firstUser;
+        }
+
+        const button2 = document.getElementById('Button2');
+        const button3 = document.getElementById('Button3');
+
+        button2.disabled = true;
+        button3.disabled = false;
+
+        button2.style.backgroundColor = "rgba(192, 192, 192, 0.5)";
+        button3.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+       
+        let randomIndex = Math.floor(Math.random() * IT_sphereList.length); // Генерируем случайное значение в диапазоне списка IT_sphereList
+        button2.setAttribute('data-randomIndex', randomIndex); // Сохраняем случайное значение в атрибуте кнопки
+
+        let spyIndex = Math.floor(Math.random() * users.length); // Генерируем рандомный индекс для "ШПИОН"
+        button2.setAttribute('data-spyIndex', spyIndex); // Сохраняем случайное значение в атрибуте кнопки
+    });
+
+    let spyDisplayed = false; // Переменная для отслеживания отображения "ШПИОН"
+    let _index_user = 0;
+    
+    document.getElementById('Button3').addEventListener('click', function () {
+       
+    let randomIndex = document.getElementById('Button2').getAttribute('data-randomIndex'); // Получаем сохраненное случайное значение из атрибута кнопки
+
+	let labelElement2 = document.getElementById('Label2');
+  	let selectedValue = document.getElementById("DropDownList1").value.toLowerCase();
+    let _button2_spyIndex = document.getElementById('Button2').getAttribute('data-spyIndex');
+
+  if (selectedValue === "it-сфера") {
+  if (_index_user == _button2_spyIndex)
+    {
+       labelElement2.textContent = "ШПИОН";
+    }
+    else
+    {
+        labelElement2.textContent = IT_sphereList[randomIndex]; // Устанавливаем текст элемента label2 равным значению из массива
+    }
+  }
+
+        const button3 = document.getElementById('Button3');
+        const button4 = document.getElementById('Button4');
+
+        button3.disabled = true;
+        button4.disabled = false;
+
+        button3.style.backgroundColor = "rgba(192, 192, 192, 0.5)";
+        button4.style.backgroundColor = "rgba(0, 128, 0, 0.5)";
+
+        labelElement2.hidden = false;
+        _index_user++;
+ 
+    });
+
+let index = 1;
+let labelElement = document.getElementById('Label1');
+
+document.getElementById('Button4').addEventListener('click', function() {
+    if (index < users.length) {
+        labelElement.textContent = users[index];
+        index++;
+    } else {
+        labelElement.textContent = "Достигнут конец списка пользователей";
+    }
+    document.getElementById('Button3').disabled = false;
+    document.getElementById('Button4').disabled = true;
+
+    document.getElementById('Button3').style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+    document.getElementById('Button4').style.backgroundColor = "rgba(192, 192, 192, 0.5)";
+
+    let labelElement2 = document.getElementById('Label2');
+    labelElement2.hidden = true;
+
+});
+});
+   
+</script>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+       <div class="wrapper">
+		<div class="content">
+
+			<header class="main-header">
+				<div class="layers">
+					<div class="layer__header">
+						<div class="layers__caption">Добро пожаловать в игру</div>
+						<div class="layers__title">"Шпион"</div>
+					</div>
+					<div class="layer layers__base" style="background-image: url(img/layer-base.png);"></div>
+					<div class="layer layers__middle" style="background-image: url(img/layer-middle.png);"></div>
+					<div class="layer layers__front" style="background-image: url(img/layer-front.png);"></div>
+				</div>
+			</header>
+		
+			<article class="main-article" style="background-image: url(img/dungeon.jpg);">
+				<div class="main-article__content">
+					<h2 class="main-article__header">To be continued</h2>
+					<p class="main-article__paragraph">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis error provident dignissimos facere. Repellendus tempore autem qui! Quia magnam tempora esse id necessitatibus corrupti mollitia expedita sapiente cum rerum, ut dicta laboriosam!</p>
+				</div>
+				<div class="copy">© Roman Godunov</div>
+			</article>
+
+			<article class="main-under">
+				<div class="background_video">
+    <div class="video_wrapper">
+        <video autoplay loop muted class="video">
+            <source src="img/FireHell.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
+
+
+<div class="main-under__content">
+    <h2 class="main-under__header">Начать играть</h2>
+    <p class="main-under__paragraph">В текстовом поле, расположенном ниже укажите игроков</p>
+    <div class="buttons">
+        <input type="text" id="TextBox1" />
+        <button type="button" id="Button1">Создать</button>
+    </div>
+    <div class="LIST_THEMES">
+        <p class="text_themes">Выберите категорию</p>
+        <select id="DropDownList1">
+            <option value="Виды спорта">Виды спорта</option>
+            <option value="IT-сфера">IT-сфера</option>
+        </select>
+        <button type="button" id="Button2">Запуск игры</button>
+        <label id="Label1">Игроки</label>
+        <div class="BUTT">
+            <button type="button" id="Button3">Открыть слово</button>
+            <button type="button" id="Button4">Скрыть слово</button>
+        </div>
+    </div>
+ <label id="Label2">Слова категории</label>
+</div>
+
+			</article>
+
+		</div>
+	</div>
+
+    </form>
+</body>
+</html>
